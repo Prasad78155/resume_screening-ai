@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<title>HireSense AI | Dashboard</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    body {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at top left, #172554, transparent 35%),
+            radial-gradient(circle at bottom right, #312e81, transparent 35%),
+            #020617;
+        color: white;
+    }
+    nav {
+        padding: 20px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: rgba(2,6,23,0.85);
+    }
+    .logo {
+        font-size: 25px;
+        font-weight: bold;
+        color: #38bdf8;
+    }
+    .nav-links {
+        display: flex;
+        gap: 10px;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #cbd5e1;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+    .nav-links a:hover,
+    .active {
+        background: rgba(56,189,248,0.12);
+        color: #38bdf8 !important;
+    }
+    .container {
+        width: 90%;
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+    /* HERO */
+    .hero {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+    .badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 30px;
+        background: rgba(56,189,248,0.1);
+        border: 1px solid rgba(56,189,248,0.25);
+        color: #38bdf8;
+        font-size: 13px;
+        margin-bottom: 18px;
+    }
+    .hero h1 {
+        font-size: 42px;
+        line-height: 1.2;
+        margin-bottom: 12px;
+    }
+    .hero h1 span {
+        color: #38bdf8;
+    }
+    .hero p {
+        color: #94a3b8;
+        font-size: 16px;
+    }
+    /* STATS */
+    .dashboard-title {
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    .stat-card {
+        padding: 22px;
+        border-radius: 16px;
+        background: rgba(15,23,42,0.85);
+        border: 1px solid rgba(255,255,255,0.08);
+        transition: 0.3s;
+    }
+    .stat-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(56,189,248,0.35);
+    }
+    .stat-icon {
+        font-size: 25px;
+        margin-bottom: 12px;
+    }
+    .stat-number {
+        font-size: 28px;
+        font-weight: bold;
+        color: #38bdf8;
+    }
+    .stat-label {
+        margin-top: 5px;
+        color: #94a3b8;
+        font-size: 13px;
+    }
+    /* ANALYTICS */
+    .analytics-card {
+        background: rgba(15,23,42,0.88);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 28px;
+        margin-bottom: 30px;
+    }
+    .analytics-title {
+        font-size: 21px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .analytics-subtitle {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+    .chart {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        height: 250px;
+        padding: 20px 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .bar-container {
+        height: 100%;
+        width: 18%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .bar-value {
+        color: #38bdf8;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+    .bar {
+        width: 55px;
+        max-height: 170px;
+        min-height: 5px;
+        border-radius: 8px 8px 0 0;
+        background: linear-gradient(
+            to top,
+            #0ea5e9,
+            #6366f1
+        );
+        transition: 0.5s;
+    }
+    .bar:hover {
+        opacity: 0.8;
+        transform: scaleX(1.08);
+    }
+    .bar-label {
+        margin-top: 12px;
+        color: #94a3b8;
+        font-size: 12px;
+        text-align: center;
+    }
+    /* SCREENING FORM */
+    .card {
+        background: rgba(15,23,42,0.88);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .card-title {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+    .card-subtitle {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+    .form-group {
+        margin-bottom: 21px;
+    }
+    label {
+        display: block;
+        margin-bottom: 9px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #e2e8f0;
+    }
+    input,
+    textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.05);
+        color: white;
+        font-size: 15px;
+        outline: none;
+    }
+    input:focus,
+    textarea:focus {
+        border-color: #38bdf8;
+        box-shadow: 0 0 0 3px rgba(56,189,248,0.08);
+    }
+    input::placeholder,
+    textarea::placeholder {
+        color: #64748b;
+    }
+    textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+    input[type="file"] {
+        cursor: pointer;
+        padding: 13px;
+    }
+    .file-help {
+        margin-top: 8px;
+        color: #64748b;
+        font-size: 13px;
+    }
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(
+            135deg,
+            #0ea5e9,
+            #6366f1
+        );
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(14,165,233,0.25);
+    }
+    /* FEATURES */
+    .features {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 25px;
+    }
+    .feature {
+        text-align: center;
+        padding: 18px 8px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        color: #cbd5e1;
+        font-size: 13px;
+    }
+    footer {
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 30px;
+        color: #64748b;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    footer strong {
+        color: #38bdf8;
+    }
+    footer p {
+        margin-top: 6px;
+        font-size: 13px;
+    }
+    @media (max-width: 750px) {
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .features {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .hero h1 {
+            font-size: 31px;
+        }
+        .card,
+        .analytics-card {
+            padding: 23px;
+        }
+        .bar {
+            width: 40px;
+        }
+    }
+    @media (max-width: 450px) {
+        .hero h1 {
+            font-size: 27px;
+        }
+        .stat-card {
+            padding: 16px;
+        }
+        .stat-number {
+            font-size: 23px;
+        }
+        .logo {
+            font-size: 20px;
+        }
+        .nav-links a {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+        .chart {
+            height: 210px;
+        }
+        .bar {
+            width: 30px;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">
+        🤖 HireSense AI
+    </div>
+    <div class="nav-links">
+        <a href="/" class="active">
+            🏠 Dashboard
+        </a>
+        <a href="/candidates">
+            👥 Candidates
+        </a>
+    </div>
+</nav>
+<div class="container">
+    <!-- HERO -->
+    <div class="hero">
+        <div class="badge">
+            ✨ AI-Powered Recruitment Platform
+        </div>
+        <h1>
+            Find the Right Candidate
+            <br>
+            <span>Smarter & Faster</span>
+        </h1>
+        <p>
+            Screen multiple resumes, match skills and analyze
+            candidates using AI-powered text matching.
+        </p>
+    </div>
+    <!-- DASHBOARD -->
+    <h2 class="dashboard-title">
+        📊 Screening Overview
+    </h2>
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-icon">
+                👥
+            </div>
+            <div class="stat-number">
+                {{ candidates_screened }}
+            </div>
+            <div class="stat-label">
+                Candidates Screened
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                📄
+            </div>
+            <div class="stat-number">
+                {{ resumes_analyzed }}
+            </div>
+            <div class="stat-label">
+                Resumes Analyzed
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                🎯
+            </div>
+            <div class="stat-number">
+                {{ average_score }}%
+            </div>
+            <div class="stat-label">
+                Average Match Score
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                ✅
+            </div>
+            <div class="stat-number">
+                {{ accepted_candidates }}
+            </div>
+            <div class="stat-label">
+                Accepted Candidates
+            </div>
+        </div>
+    </div>
+    <!-- ANALYTICS -->
+    <div class="analytics-card">
+        <div class="analytics-title">
+            📈 Screening Analytics
+        </div>
+        <div class="analytics-subtitle">
+            Candidate screening activity and current results
+        </div>
+        <div class="chart">
+            <!-- TOTAL -->
+            <div class="bar-container">
+                <div class="bar-value">
+                    {{ candidates_screened }}
+                </div>
+                <div
+                    class="bar"
+                    style="height: {{ [candidates_screened * 12, 5]|max }}px;"
+                ></div>
+                <div class="bar-label">
+                    Total
+                </div>
+            </div>
+            <!-- ACCEPTED -->
+            <div class="bar-container">
+                <div class="bar-value">
+                    {{ accepted_candidates }}
+                </div>
+                <div
+                    class="bar"
+                    style="height: {{ [accepted_candidates * 12, 5]|max }}px;"
+                ></div>
+                <div class="bar-label">
+                    Accepted
+                </div>
+            </div>
+            <!-- REVIEW -->
+            <div class="bar-container">
+                <div class="bar-value">
+                    {{ review_count }}
+                </div>
+                <div
+                    class="bar"
+                    style="height: {{ [review_count * 12, 5]|max }}px;"
+                ></div>
+                <div class="bar-label">
+                    Review
+                </div>
+            </div>
+            <!-- REJECTED -->
+            <div class="bar-container">
+                <div class="bar-value">
+                    {{ rejected_count }}
+                </div>
+                <div
+                    class="bar"
+                    style="height: {{ [rejected_count * 12, 5]|max }}px;"
+                ></div>
+                <div class="bar-label">
+                    Rejected
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SCREENING FORM -->
+    <div class="card">
+        <div class="card-title">
+            🔍 Start New Resume Screening
+        </div>
+        <div class="card-subtitle">
+            Enter the job requirements and upload one or more candidate resumes.
+        </div>
+        <form
+            action="/upload"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+            <div class="form-group">
+                <label>
+                    💼 Job Role
+                </label>
+                <input
+                    type="text"
+                    name="job_role"
+                    placeholder="Example: Python Developer"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label>
+                    🎓 Required Qualification
+                </label>
+                <input
+                    type="text"
+                    name="qualification"
+                    placeholder="Example: B.Sc Computer Science"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label>
+                    🧠 Required Skills
+                </label>
+                <input
+                    type="text"
+                    name="skills"
+                    placeholder="Python, Flask, SQL, Machine Learning"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label>
+                    📝 Job Description
+                </label>
+                <textarea
+                    name="job_description"
+                    placeholder="Enter the complete job description..."
+                    required
+                ></textarea>
+            </div>
+            <div class="form-group">
+                <label>
+                    📄 Candidate Resumes
+                </label>
+                <input
+                    type="file"
+                    name="resumes"
+                    accept=".pdf,.docx"
+                    multiple
+                    required
+                >
+                <div class="file-help">
+                    💡 You can select multiple PDF or DOCX resumes at once.
+                </div>
+            </div>
+            <button type="submit">
+                ✨ Analyze Resumes with AI
+            </button>
+        </form>
+    </div>
+    <!-- FEATURES -->
+    <div class="features">
+        <div class="feature">
+            ⚡<br>
+            Fast Screening
+        </div>
+        <div class="feature">
+            🧠<br>
+            Skill Matching
+        </div>
+        <div class="feature">
+            📊<br>
+            AI Match Score
+        </div>
+        <div class="feature">
+            📁<br>
+            Multiple Resumes
+        </div>
+    </div>
+</div>
+<!-- FOOTER -->
+<footer>
+    <p>
+        Developed with 🤖 by
+        <strong>Prasad</strong>
+    </p>
+    <p>
+        HireSense AI • AI Resume Screening System
+    </p>
+    <p>
+        © <span id="year"></span> HireSense AI
+    </p>
+</footer>
+<script>
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+</script>
+</body>
+</html>

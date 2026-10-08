@@ -1,0 +1,373 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidates | HireSense AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #111827;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .candidate-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .candidate-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .candidate-card h2 {
+            margin-bottom: 15px;
+            color: #38bdf8;
+        }
+
+        .info {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .value {
+            color: #e2e8f0;
+            margin-top: 3px;
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin: 15px 0;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .accepted {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .review {
+            background: #78350f;
+            color: #fde68a;
+        }
+
+        .rejected {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #0ea5e9;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .empty {
+            background: #111827;
+            border: 1px solid #1e293b;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 35px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .candidate-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Hire<span>Sense</span> AI
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Dashboard
+            </a>
+
+            <a href="/candidates">
+                Candidates
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <h1>
+            Candidates
+        </h1>
+
+        <p class="subtitle">
+            All screened candidates
+        </p>
+
+
+        {% if candidates %}
+
+        <div class="candidate-grid">
+
+
+            {% for candidate in candidates %}
+
+
+            <div class="candidate-card">
+
+
+                <h2>
+                    {{ candidate['name'] }}
+                </h2>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Email
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['email'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Phone
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['phone'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Job Role
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['job_role'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="score">
+
+                    {{ candidate['score'] }}%
+
+                </div>
+
+
+                {% if candidate['status'] == 'ACCEPTED' %}
+
+                    <span class="status accepted">
+                        ✓ ACCEPTED
+                    </span>
+
+                {% elif candidate['status'] == 'REVIEW' %}
+
+                    <span class="status review">
+                        ⚠ REVIEW
+                    </span>
+
+                {% else %}
+
+                    <span class="status rejected">
+                        ✕ REJECTED
+                    </span>
+
+                {% endif %}
+
+
+                <br>
+
+
+                <!-- VIEW DETAILS -->
+
+                <a
+                    href="/candidate/{{ candidate['id'] }}"
+                    class="btn"
+                >
+                    View Details
+                </a>
+
+
+                <!-- DOWNLOAD REPORT -->
+
+                <a
+                    href="/download_report/{{ candidate['id'] }}"
+                    class="btn"
+                >
+                    📥 Download Report
+                </a>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+
+            <h2>
+                No Candidates Found
+            </h2>
+
+            <p>
+                Please upload resumes to screen candidates.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            Developed with 🤖 by <strong>Prasad</strong>
+        </p>
+
+        <p>
+            HireSense AI • AI Resume Screening System
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
+```

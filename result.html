@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>HireSense AI - Result</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #172554, transparent 35%),
+                radial-gradient(circle at bottom right, #312e81, transparent 35%),
+                #020617;
+            color: white;
+        }
+
+        nav {
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .nav-text {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #94a3b8;
+        }
+
+        .score-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(15,23,42,0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 25px;
+        }
+
+        .score {
+            font-size: 65px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 22px;
+            border-radius: 30px;
+            background: rgba(56,189,248,0.12);
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        .box {
+            background: rgba(15,23,42,0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .box h2 {
+            color: #38bdf8;
+            margin-bottom: 18px;
+        }
+
+        .box p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .skill {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            margin-top: 10px;
+            color: #cbd5e1;
+        }
+
+        .resume-text {
+            white-space: pre-wrap;
+            background: rgba(0,0,0,0.25);
+            padding: 20px;
+            border-radius: 12px;
+            color: #cbd5e1;
+            line-height: 1.7;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                #0ea5e9,
+                #6366f1
+            );
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 25px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            color: #64748b;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        footer strong {
+            color: #38bdf8;
+        }
+
+        @media (max-width: 700px) {
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .heading h1 {
+                font-size: 29px;
+            }
+
+            .score {
+                font-size: 50px;
+            }
+
+            .nav-text {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            🤖 HireSense AI
+        </div>
+
+        <div class="nav-text">
+            AI Screening Result
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                📊 Resume Screening Result
+            </h1>
+
+            <p>
+                AI-powered candidate analysis
+            </p>
+
+        </div>
+
+
+        <!-- FINAL SCORE -->
+
+        <div class="score-card">
+
+            <div class="score">
+                {{ score }}%
+            </div>
+
+            <div class="status">
+                {{ status }}
+            </div>
+
+            <p style="margin-top:15px;color:#94a3b8;">
+                Final Screening Score
+            </p>
+
+        </div>
+
+
+        <!-- CANDIDATE INFORMATION -->
+
+        <div class="box">
+
+            <h2>
+                👤 Candidate Information
+            </h2>
+
+            <p>
+                <strong>Name:</strong>
+                {{ name }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ email }}
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                {{ phone }}
+            </p>
+
+            <p>
+                <strong>Education:</strong>
+                {{ education }}
+            </p>
+
+        </div>
+
+
+        <!-- JOB INFORMATION -->
+
+        <div class="details">
+
+
+            <div class="box">
+
+                <h2>💼 Job Role</h2>
+
+                <p>
+                    {{ job_role }}
+                </p>
+
+            </div>
+
+
+            <div class="box">
+
+                <h2>🎓 Qualification</h2>
+
+                <p>
+                    {{ qualification }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- AI ANALYSIS -->
+
+        <div class="box">
+
+            <h2>
+                🤖 AI Matching Analysis
+            </h2>
+
+            <p>
+                <strong>
+                    Skill Match Score:
+                </strong>
+
+                {{ skill_score }}%
+            </p>
+
+            <p>
+                <strong>
+                    AI Similarity Score:
+                </strong>
+
+                {{ ai_score }}%
+            </p>
+
+            <p>
+                <strong>
+                    Final Score:
+                </strong>
+
+                {{ score }}%
+            </p>
+
+        </div>
+
+
+        <!-- SKILLS -->
+
+        <div class="details">
+
+
+            <div class="box">
+
+                <h2>
+                    ✅ Matched Skills
+                </h2>
+
+                <div class="skill">
+                    {{ matched_skills }}
+                </div>
+
+            </div>
+
+
+            <div class="box">
+
+                <h2>
+                    ❌ Missing Skills
+                </h2>
+
+                <div class="skill">
+                    {{ missing_skills }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- JOB DESCRIPTION -->
+
+        <div class="box">
+
+            <h2>
+                📝 Job Description
+            </h2>
+
+            <p>
+                {{ job_description }}
+            </p>
+
+        </div>
+
+
+        <!-- RESUME -->
+
+        <div class="box">
+
+            <h2>
+                📄 Resume Content
+            </h2>
+
+            <div class="resume-text">
+                {{ resume_text }}
+            </div>
+
+        </div>
+
+
+        <!-- NEW SCREENING -->
+
+        <a
+            href="/"
+            class="button"
+        >
+            🔄 Screen Another Resume
+        </a>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            Developed with 🤖 by
+            <strong>Prasad</strong>
+        </p>
+
+        <p>
+            © <span id="year"></span>
+            HireSense AI
+        </p>
+
+        <p>
+            Date:
+            <span id="date"></span>
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        const today = new Date();
+
+        document.getElementById("year").textContent =
+            today.getFullYear();
+
+        document.getElementById("date").textContent =
+            today.toLocaleDateString("en-IN", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+
+    </script>
+
+
+</body>
+
+</html>

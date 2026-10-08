@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>HireSense AI | Screening Complete</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #172554, transparent 35%),
+                radial-gradient(circle at bottom right, #312e81, transparent 35%),
+                #020617;
+            color: white;
+        }
+
+        nav {
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(2,6,23,0.85);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .nav-link:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 45px auto;
+        }
+
+        .success {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .success h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .success p {
+            color: #94a3b8;
+        }
+
+        .job {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(56,189,248,0.1);
+            color: #38bdf8;
+            font-size: 13px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            text-align: center;
+            padding: 22px;
+            border-radius: 16px;
+            background: rgba(15,23,42,0.88);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .summary-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .summary-label {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .card {
+            background: rgba(15,23,42,0.88);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .card-title {
+            padding: 20px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .candidate {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .candidate:last-child {
+            border-bottom: none;
+        }
+
+        .candidate-name {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .candidate-id {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .score {
+            font-size: 20px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .status {
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .accepted {
+            background: rgba(34,197,94,0.12);
+            color: #4ade80;
+        }
+
+        .review {
+            background: rgba(234,179,8,0.12);
+            color: #facc15;
+        }
+
+        .rejected {
+            background: rgba(239,68,68,0.12);
+            color: #f87171;
+        }
+
+        .details {
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(56,189,248,0.08);
+        }
+
+        .details:hover {
+            background: rgba(56,189,248,0.18);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                #0ea5e9,
+                #6366f1
+            );
+        }
+
+        .secondary {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 30px;
+            color: #64748b;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        footer strong {
+            color: #38bdf8;
+        }
+
+        footer p {
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .success h1 {
+                font-size: 28px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .candidate {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .right {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <div class="logo">
+            🤖 HireSense AI
+        </div>
+
+        <a href="/candidates" class="nav-link">
+            👥 Candidates
+        </a>
+
+    </nav>
+
+
+    <div class="container">
+
+
+        <!-- SUCCESS -->
+
+        <div class="success">
+
+            <div class="success-icon">
+                🎉
+            </div>
+
+            <h1>
+                Screening Completed!
+            </h1>
+
+            <p>
+                All selected resumes have been analyzed successfully.
+            </p>
+
+            <div class="job">
+                💼 Job Role: {{ job_role }}
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <div class="summary-number">
+                    {{ candidates|length }}
+                </div>
+
+                <div class="summary-label">
+                    Resumes Analyzed
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-number">
+                    {{ candidates|selectattr("status", "equalto", "ACCEPTED")|list|length }}
+                </div>
+
+                <div class="summary-label">
+                    Accepted
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-number">
+                    {{ candidates|selectattr("status", "equalto", "REVIEW")|list|length }}
+                </div>
+
+                <div class="summary-label">
+                    Need Review
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="card">
+
+            <div class="card-title">
+                📊 Screening Results
+            </div>
+
+
+            {% for candidate in candidates %}
+
+            <div class="candidate">
+
+                <div>
+
+                    <div class="candidate-name">
+                        👤 {{ candidate["name"] }}
+                    </div>
+
+                    <div class="candidate-id">
+                        Candidate ID: #{{ candidate["id"] }}
+                    </div>
+
+                </div>
+
+
+                <div class="right">
+
+                    <div class="score">
+                        {{ candidate["score"] }}%
+                    </div>
+
+
+                    {% if candidate["status"] == "ACCEPTED" %}
+
+                        <span class="status accepted">
+                            ✓ ACCEPTED
+                        </span>
+
+                    {% elif candidate["status"] == "REVIEW" %}
+
+                        <span class="status review">
+                            ⏳ REVIEW
+                        </span>
+
+                    {% else %}
+
+                        <span class="status rejected">
+                            ✕ REJECTED
+                        </span>
+
+                    {% endif %}
+
+
+                    <a
+                        href="/candidate/{{ candidate['id'] }}"
+                        class="details"
+                    >
+                        👁 Details
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a
+                href="/"
+                class="button"
+            >
+                🔄 Screen More Resumes
+            </a>
+
+            <a
+                href="/candidates"
+                class="button secondary"
+            >
+                👥 View All Candidates
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            Developed by PRASAD.
+            <strong>Prasad</strong>
+        </p>
+
+        <p>
+            HireSense AI • AI Resume Screening System
+        </p>
+
+        <p>
+            © <span id="year"></span> HireSense AI
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+    </script>
+
+
+</body>
+
+</html>

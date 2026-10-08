@@ -1,0 +1,607 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Details | HireSense AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #111827;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: #334155;
+            color: white;
+        }
+
+        .download-btn {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .score-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .score-label {
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .accepted {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .review {
+            background: #78350f;
+            color: #fde68a;
+        }
+
+        .rejected {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            margin-bottom: 15px;
+        }
+
+        .label {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            color: #e2e8f0;
+            font-size: 15px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .analysis-box {
+            background: #0f172a;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .analysis-score {
+            font-size: 27px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .analysis-label {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill {
+            background: #082f49;
+            color: #7dd3fc;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .missing {
+            background: #450a0a;
+            color: #fca5a5;
+        }
+
+        .text-box {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 18px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 35px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Hire<span>Sense</span> AI
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/candidates">Candidates</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <!-- TOP SECTION -->
+
+        <div class="top-section">
+
+            <div>
+
+                <h1>Candidate Analysis</h1>
+
+                <p class="subtitle">
+                    Detailed AI-powered resume screening report
+                </p>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <a href="/candidates" class="btn back-btn">
+                    ← Candidates
+                </a>
+
+                <a href="/download_report/{{ candidate['id'] }}"
+                   class="btn download-btn">
+                    📥 Download PDF Report
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- SCORE -->
+
+        <div class="score-card">
+
+            <div class="score">
+                {{ candidate['score'] }}%
+            </div>
+
+            <div class="score-label">
+                Final Screening Score
+            </div>
+
+
+            {% if candidate['status'] == 'ACCEPTED' %}
+
+                <div class="status accepted">
+                    ✓ ACCEPTED
+                </div>
+
+            {% elif candidate['status'] == 'REVIEW' %}
+
+                <div class="status review">
+                    ⚠ REVIEW
+                </div>
+
+            {% else %}
+
+                <div class="status rejected">
+                    ✕ REJECTED
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="grid">
+
+
+            <!-- CANDIDATE INFORMATION -->
+
+            <div class="card">
+
+                <h2>👤 Candidate Information</h2>
+
+                <div class="info">
+
+                    <div class="label">
+                        Name
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['name'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Email
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['email'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Phone
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['phone'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Education
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['education'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Job Role
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['job_role'] }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="label">
+                        Required Qualification
+                    </div>
+
+                    <div class="value">
+                        {{ candidate['qualification'] }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI ANALYSIS -->
+
+            <div class="card">
+
+                <h2>🤖 AI Matching Analysis</h2>
+
+                <div class="analysis-grid">
+
+                    <div class="analysis-box">
+
+                        <div class="analysis-score">
+                            {{ candidate['skill_score'] }}%
+                        </div>
+
+                        <div class="analysis-label">
+                            Skill Match
+                        </div>
+
+                    </div>
+
+
+                    <div class="analysis-box">
+
+                        <div class="analysis-score">
+                            {{ candidate['ai_score'] }}%
+                        </div>
+
+                        <div class="analysis-label">
+                            AI Similarity
+                        </div>
+
+                    </div>
+
+
+                    <div class="analysis-box">
+
+                        <div class="analysis-score">
+                            {{ candidate['score'] }}%
+                        </div>
+
+                        <div class="analysis-label">
+                            Final Score
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MATCHED SKILLS -->
+
+            <div class="card">
+
+                <h2>✅ Matched Skills</h2>
+
+                <div class="skills">
+
+                    {% if candidate['matched_skills'] %}
+
+                        {% for skill in candidate['matched_skills'].split(',') %}
+
+                            <span class="skill">
+                                {{ skill.strip() }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="value">
+                            No matched skills found
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- MISSING SKILLS -->
+
+            <div class="card">
+
+                <h2>⚠️ Missing Skills</h2>
+
+                <div class="skills">
+
+                    {% if candidate['missing_skills'] %}
+
+                        {% for skill in candidate['missing_skills'].split(',') %}
+
+                            <span class="skill missing">
+                                {{ skill.strip() }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="value">
+                            No missing skills 🎉
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- JOB DESCRIPTION -->
+
+            <div class="card">
+
+                <h2>💼 Job Description</h2>
+
+                <div class="text-box">
+                    {{ candidate['job_description'] }}
+                </div>
+
+            </div>
+
+
+            <!-- RESUME -->
+
+            <div class="card">
+
+                <h2>📄 Resume Content</h2>
+
+                <div class="text-box">
+                    {{ candidate['resume_text'] }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    
+    <footer>
+
+        <p>
+            Developed by <strong>PRASAD</strong>
+        </p>
+
+        <p>
+            HireSense AI • AI Resume Screening System
+        </p>
+
+        <p>
+            © <span id="year"></span> HireSense AI
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+    </script>
+
+```
